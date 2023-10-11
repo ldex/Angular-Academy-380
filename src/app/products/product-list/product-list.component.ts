@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, catchError } from 'rxjs';
 import { Product } from 'src/app/models/product.interface';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -13,6 +13,7 @@ export class ProductListComponent {
   products: Product[];
   products$: Observable<Product[]>;
   selectedProduct: Product;
+  errorMessage: string;
 
   // Pagination
   pageSize = 5;
@@ -39,7 +40,17 @@ export class ProductListComponent {
   }
 
   constructor(private productService: ProductService) {
-    this.products$ = this.productService.products$;
+    this.products$ = this
+                      .productService
+                      .products$
+                      .pipe(
+                        catchError(
+                          err => {
+                            this.errorMessage = err;
+                            return EMPTY;
+                          }
+                        )
+                      );
 
     // this
     //   .productService
