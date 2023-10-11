@@ -13,10 +13,10 @@ import { ProductsModule } from './products/products.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ProductsModule
+    ProductsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
